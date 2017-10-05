@@ -1,0 +1,62 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="***REMOVED***gcse.BlankFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+
+    <ScrollView
+        android:id="@+id/SCROLLER_ID"
+        android:layout_width="fill_parent"
+        android:layout_height="364dp"
+        android:scrollbars="vertical"
+        android:gravity="center"
+        android:fillViewport="true"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/TEXT_STATUS_ID"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec lectus venenatis, faucibus ante vitae, iaculis augue. Proin viverra rutrum augue ut dictum. Duis cursus nisl a cursus gravida. Praesent in bibendum nibh. Donec volutpat in nibh sit amet dapibus. Cras ultricies tortor ut lacus pellentesque fringilla. Mauris laoreet arcu a nibh facilisis, vitae eleifend orci convallis. Praesent fermentum dapibus pellentesque.  Aenean ullamcorper orci quis sapien ultrices, eu dapibus enim tempor. Suspendisse sit amet dolor in neque luctus dictum vitae nec sem. Quisque ornare vitae tellus at pellentesque. Nam sit amet orci id lectus consectetur ultricies. Integer eget placerat est, et congue tortor. Praesent egestas ultrices mauris, vel pretium augue. Aliquam vel feugiat mauris. Fusce tempor mattis turpis, vitae varius justo.  Proin felis nunc, lobortis id odio ac, mattis vulputate orci. Nulla quis tempor nisi. Sed id mattis ligula. In laoreet urna vitae dui ornare, a accumsan nisi hendrerit. Aenean pulvinar pellentesque sapien porttitor dignissim. Cras dapibus, nisi quis lacinia pretium, enim dolor vestibulum quam, et faucibus justo lectus in elit. Vestibulum lacinia nisi posuere, faucibus mi quis, bibendum massa. Nunc quis massa in mauris gravida volutpat vel eget elit. Etiam a interdum diam. Nunc commodo sit amet eros sed sodales. Donec nec sagittis dui.  Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla facilisi. Proin mi massa, viverra et erat sagittis, sodales aliquet libero. Praesent rutrum finibus dictum. Curabitur auctor felis a eleifend sagittis. Quisque nec euismod risus. Aenean ultricies tellus turpis, cursus tincidunt diam gravida vitae.  Vestibulum nec tincidunt lectus. Sed rhoncus ex ut ante tincidunt, ac congue sem lobortis. Fusce faucibus ligula eu justo malesuada pretium. Vivamus a dolor ligula. Ut faucibus felis a maximus condimentum. Maecenas ut ante turpis. Morbi a lorem diam. Quisque consectetur tempus nisi, et auctor ex interdum."
+            android:textSize="24sp" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="left|bottom"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="right|bottom"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="72dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="72dp"
+        android:text="Button" />
+
+
+
+
+</FrameLayout>

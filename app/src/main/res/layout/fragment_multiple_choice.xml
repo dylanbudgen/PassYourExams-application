@@ -1,0 +1,60 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="***REMOVED***gcse.MultipleChoiceFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+
+    <ScrollView
+        android:id="@+id/scroller_multiple"
+        android:layout_width="fill_parent"
+        android:layout_height="364dp"
+        android:scrollbars="vertical"
+        android:gravity="center"
+        android:fillViewport="true"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/text_multiple"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="Multiple choice question" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_1_multiple"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="left|bottom"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button_2_multiple"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="right|bottom"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button_3_multiple"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="left|bottom"
+        android:layout_marginBottom="72dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button_4_multiple"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="72dp"
+        android:text="Button" />
+
+
+
+</FrameLayout>

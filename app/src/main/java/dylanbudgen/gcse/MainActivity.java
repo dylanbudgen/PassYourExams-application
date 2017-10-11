@@ -67,37 +67,15 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-
                 ArrayList<Question> questions = mDbReader.getQuestions(lessons.get(position).getLessonName());
 
-                for(Question q : questions) {
-
-                    Log.d("DEBUG", "000P Lesson: " + lessons.get(position).getLessonName() + "Question: " + q.getQuestionId() + " Answer = " + q.getCorrectAnswer() + " Inc = " + q.getIncorrectAnswer()
-                            + " Inc2 = " + q.getIncorrectAnswer2());
-                }
-
-
-
-
-                Toast.makeText(MainActivity.this, "" + position + " id: " + id,
-                        Toast.LENGTH_SHORT).show();
-
                 Intent intent = new Intent(v.getContext(), QuestionsActivity.class);
+                intent.putExtra("QUESTIONS", questions);
                 startActivity(intent);
 
             }
         });
 
-        Log.d("DEBUG", "Set up for the gridview is done");
-
-
-
-
     }
-
-
-
-
-
 
 }

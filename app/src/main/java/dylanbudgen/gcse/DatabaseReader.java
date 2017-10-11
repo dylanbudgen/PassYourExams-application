@@ -52,7 +52,8 @@ public class DatabaseReader {
                     FeedReaderContract.FeedEntry.QUESTIONID,
                     FeedReaderContract.FeedEntry.CORRECT_ANS,
                     FeedReaderContract.FeedEntry.INCORRECT_ANS,
-                    FeedReaderContract.FeedEntry.INCORRECT_ANS_2
+                    FeedReaderContract.FeedEntry.INCORRECT_ANS_2,
+                    FeedReaderContract.FeedEntry.QUESTION_TYPE
             };
 
             // Filter results WHERE "title" = 'My Title'
@@ -87,7 +88,12 @@ public class DatabaseReader {
                 String incorrectAnswer2 = cursor.getString(
                         cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.INCORRECT_ANS_2));
 
-                questions.add(new Question(questionId, correctAnswer, incorrectAnswer, incorrectAnswer2));
+                String questionType = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.QUESTION_TYPE));
+
+
+                questions.add(new Question(questionId, correctAnswer, incorrectAnswer,
+                        incorrectAnswer2, questionType));
 
             }
             cursor.close();
@@ -240,6 +246,7 @@ public class DatabaseReader {
             public static final String CORRECT_ANS = "CORRECT_ANS";
             public static final String INCORRECT_ANS = "INCORRECT_ANS";
             public static final String INCORRECT_ANS_2 = "INCORRECT_ANS_2";
+            public static final String QUESTION_TYPE = "QUESTION_TYPE";
         }
     }
 

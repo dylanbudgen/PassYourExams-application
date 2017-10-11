@@ -1,0 +1,38 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="***REMOVED***gcse.InfoFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+
+    <ScrollView
+        android:id="@+id/scroller_info"
+        android:layout_width="fill_parent"
+        android:layout_height="364dp"
+        android:scrollbars="vertical"
+        android:gravity="center"
+        android:fillViewport="true"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/text_info"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:text="InfoFragment"
+            android:textSize="24sp" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_info_next"
+        android:layout_width="185dp"
+        android:layout_height="69dp"
+        android:layout_gravity="bottom"
+        android:text="Button" />
+
+
+
+</FrameLayout>

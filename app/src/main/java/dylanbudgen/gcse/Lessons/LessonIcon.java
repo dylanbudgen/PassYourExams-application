@@ -1,28 +1,30 @@
-package ***REMOVED***gcse;
+package ***REMOVED***gcse.Lessons;
 
 import android.widget.ProgressBar;
+
+import java.io.Serializable;
 
 /**
  * Created by ***REMOVED*** on 02/10/2017.
  */
 
-public class LessonIcon {
+public class LessonIcon implements Serializable {
 
     private String lessonName;
-    private int lessonIcon;
+    private int icon;
     private ProgressBar progressBar;
 
-    public LessonIcon(String lessonName, int lessonIcon) {
+    public LessonIcon(String lessonName, int icon) {
         this.lessonName = lessonName;
-        this.lessonIcon = lessonIcon;
+        this.icon = icon;
     }
 
     public String getLessonName() {
         return lessonName;
     }
 
-    public int getLessonIcon() {
-        return lessonIcon;
+    public int getIcon() {
+        return icon;
     }
 
 

@@ -1,4 +1,4 @@
-package ***REMOVED***gcse;
+package ***REMOVED***gcse.Database;
 
 import android.content.Context;
 import android.database.SQLException;

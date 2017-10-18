@@ -1,13 +1,18 @@
-package ***REMOVED***gcse;
+package ***REMOVED***gcse.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import ***REMOVED***gcse.Question.Question;
+import ***REMOVED***gcse.R;
 
 /**
  * Created by ***REMOVED*** on 11/10/2017.
@@ -15,23 +20,32 @@ import java.util.ArrayList;
 
 public abstract class QuestionFragment extends Fragment implements View.OnClickListener {
 
+    protected View view;
     protected Question question;
-
     protected NextQuestionInteractionListener mListener;
 
     public QuestionFragment() {
         //
     }
 
+    protected void initiateQuestionFragment(ViewGroup v, int id) {
+
+        setUpListener();
+        setUpQuestionObject();
+        setUpTextView(id);
+        setUpQuestionButtons(v);
+
+    }
+
     protected void setUpListener() {
         try {
             mListener = (NextQuestionInteractionListener) this.getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException(this.getActivity().toString() + " must implement OnArticleSelectedListener");
+            throw new ClassCastException(this.getActivity().toString() + " must implement NextQuestionInteractionListener");
         }
     }
 
-    protected void setUpQuestion() {
+    protected void setUpQuestionObject() {
 
         Bundle bundle = this.getArguments();
 
@@ -43,21 +57,43 @@ public abstract class QuestionFragment extends Fragment implements View.OnClickL
         }
     }
 
-    protected void setUpButtons(ViewGroup v) {
+    protected void setUpQuestionButtons(ViewGroup v) {
 
-        ArrayList<Button> buttons = getAllButtons(v);
+        ArrayList<Button> buttons = getQuestionButtons();
         ArrayList<String> answers = question.getAnswers();
 
         for (int i = 0; i < answers.size(); i++) {
-
             buttons.get(i).setText(answers.get(i));
             buttons.get(i).setOnClickListener(this);
-
         }
 
     }
 
-    private ArrayList<Button> getAllButtons(ViewGroup v) {
+    // Overridable
+    public void correctAnswer() {
+        mListener.nextQuestion();
+    }
+
+    // Overridable
+    public void wrongAnswer() {
+        Log.d("DEBUG", "0000P Wrong answer selected ");
+        //mListener.nextQuestion();
+    }
+
+    protected abstract ArrayList<Button> getQuestionButtons();
+
+    protected void setUpTextView(int id) {
+        TextView text = (TextView) view.findViewById(id);
+        text.setMovementMethod(new ScrollingMovementMethod());
+        text.setText(question.getQuestion());
+    }
+
+    public interface NextQuestionInteractionListener {
+        // TODO: Update argument type and name
+        void nextQuestion();
+    }
+
+    protected ArrayList<Button> getAllButtons(ViewGroup v) {
 
         ArrayList<Button> buttons = new ArrayList();
 
@@ -70,15 +106,6 @@ public abstract class QuestionFragment extends Fragment implements View.OnClickL
         }
 
         return buttons;
-    }
-
-
-    protected abstract void setUpTextView();
-
-
-    public interface NextQuestionInteractionListener {
-        // TODO: Update argument type and name
-        void nextQuestion();
     }
 
 

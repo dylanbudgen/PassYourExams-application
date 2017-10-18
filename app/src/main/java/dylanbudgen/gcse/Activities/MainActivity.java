@@ -1,21 +1,22 @@
-package ***REMOVED***gcse;
+package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+
+import ***REMOVED***gcse.Database.DataBaseHelper;
+import ***REMOVED***gcse.Database.DatabaseReader;
+import ***REMOVED***gcse.Lessons.Lesson;
+import ***REMOVED***gcse.Lessons.LessonIcon;
+import ***REMOVED***gcse.Database.LessonIconImageAdapter;
+import ***REMOVED***gcse.R;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,12 +32,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         Log.d("DEBUG", "Deleting database for debugging purposes");
         this.deleteDatabase(DB_PATH);
-
-
 
         // TODO MAKE SURE THERE IS A CHECK IF THE DATABASE UPDATES, THE INTERNALLY STORED DB UPDATES TOO
         // TODO, WITH THIS CODE YOU CAN ALSO DOWNLOAD A DB FROM ONLINE......
@@ -44,33 +41,30 @@ public class MainActivity extends AppCompatActivity {
         mDbHelper = new DataBaseHelper(this);
 
         try {
-
             mDbHelper.createDataBase();
-
-
         } catch (IOException ioe) {
-
             throw new Error("Unable to create mDatabase");
-
         }
 
         mDbReader = new DatabaseReader(this, mDbHelper.getReadableDatabase());
 
         // TODO TRY AND CATCH HERE
 
-        final ArrayList<LessonIcon> lessons = mDbReader.getLessonList();
+        final ArrayList<LessonIcon> lessonIcons = mDbReader.getLessonList();
 
         GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new LessonIconImageAdapter(this, lessons));
+        gridview.setAdapter(new LessonIconImageAdapter(this, lessonIcons));
 
+        // Start QuestionActivity with Questions
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                ArrayList<Question> questions = mDbReader.getQuestions(lessons.get(position).getLessonName());
+                Lesson lesson = mDbReader.getLesson(lessonIcons.get(position).getLessonName());
+
 
                 Intent intent = new Intent(v.getContext(), QuestionsActivity.class);
-                intent.putExtra("QUESTIONS", questions);
+                intent.putExtra("LESSON", lesson);
                 startActivity(intent);
 
             }

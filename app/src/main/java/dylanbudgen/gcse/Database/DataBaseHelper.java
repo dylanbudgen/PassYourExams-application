@@ -1,4 +1,4 @@
-package dylanbudgen.gcse;
+package dylanbudgen.gcse.Database;
 
 import android.content.Context;
 import android.database.SQLException;

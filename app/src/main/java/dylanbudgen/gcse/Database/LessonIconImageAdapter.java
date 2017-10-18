@@ -1,4 +1,4 @@
-package dylanbudgen.gcse;
+package dylanbudgen.gcse.Database;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import dylanbudgen.gcse.Lessons.LessonIcon;
+import dylanbudgen.gcse.R;
 
 public class LessonIconImageAdapter extends BaseAdapter {
 
@@ -42,7 +45,7 @@ public class LessonIconImageAdapter extends BaseAdapter {
         final ImageView moduleIcon = (ImageView)convertView.findViewById(R.id.module_icon_image);
         final TextView moduleTitle = (TextView)convertView.findViewById(R.id.module_name);
 
-        moduleIcon.setImageResource(lessonIcons.get(position).getLessonIcon());
+        moduleIcon.setImageResource(lessonIcons.get(position).getIcon());
         moduleTitle.setText(lessonIcons.get(position).getLessonName());
 
         return convertView;

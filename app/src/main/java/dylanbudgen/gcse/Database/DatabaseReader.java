@@ -193,7 +193,7 @@ public class DatabaseReader {
 
             int itemLessonIconResource = mContext.getResources().getIdentifier(itemLessonIcon, "drawable", mContext.getPackageName());
 
-            lessons.add(new LessonIcon(itemLessonId, itemLessonIconResource));
+            lessons.add(new LessonIcon(itemLessonId, itemLessonId, itemLessonIconResource));
 
         }
         cursor.close();

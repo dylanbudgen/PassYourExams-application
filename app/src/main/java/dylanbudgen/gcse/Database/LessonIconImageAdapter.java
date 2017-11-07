@@ -6,11 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import ***REMOVED***gcse.Lessons.LessonIcon;
+import ***REMOVED***gcse.Progress.ProgressManager;
 import ***REMOVED***gcse.R;
 
 public class LessonIconImageAdapter extends BaseAdapter {
@@ -44,9 +46,13 @@ public class LessonIconImageAdapter extends BaseAdapter {
 
         final ImageView moduleIcon = (ImageView)convertView.findViewById(R.id.module_icon_image);
         final TextView moduleTitle = (TextView)convertView.findViewById(R.id.module_name);
+        final ProgressBar progressBar = (ProgressBar)convertView.findViewById(R.id.progressbar);
 
         moduleIcon.setImageResource(lessonIcons.get(position).getIcon());
         moduleTitle.setText(lessonIcons.get(position).getLessonName());
+        int progress = ProgressManager.getLevelProgress(mContext, lessonIcons.get(position).getLessonId());
+        ProgressManager.updateProgressBar(progressBar, progress);
+
 
         return convertView;
     }

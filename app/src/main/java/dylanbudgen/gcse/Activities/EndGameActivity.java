@@ -1,6 +1,8 @@
 package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -15,11 +18,14 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import ***REMOVED***gcse.Lessons.Lesson;
+import ***REMOVED***gcse.Progress.ProgressManager;
 import ***REMOVED***gcse.R;
 
 public class EndGameActivity extends AppCompatActivity {
 
     Lesson lesson;
+
+    private final int UPDATE_PROGRESS = 20;
 
     private InterstitialAd mInterstitialAd;
     //private final String ADMOB_ID = "";
@@ -69,6 +75,7 @@ public class EndGameActivity extends AppCompatActivity {
             }
         });
 
+        // Set up the module icon layout
         LinearLayout layout = (LinearLayout) findViewById(R.id.container_module_icon);
         LayoutInflater inflater = LayoutInflater.from(this);
         View inflatedLayout = inflater.inflate(R.layout.module_icon, null, false);
@@ -81,12 +88,22 @@ public class EndGameActivity extends AppCompatActivity {
         moduleIcon.setImageResource(lesson.getLessonIcon().getIcon());
         moduleTitle.setText(lesson.getLessonIcon().getLessonName());
 
+        // Update progress
+        ProgressManager.increaseLevelProgress(this, lesson.getLessonID(), UPDATE_PROGRESS);
+
+        // Set the progress bar
+        int progress = ProgressManager.getLevelProgress(this, lesson.getLessonID());
+
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        ProgressManager.updateProgressBar(progressBar, progress);
+
+        TextView text = (TextView) findViewById(R.id.textView_test_left);
+        text.setText("Progress: " + progress);
+
+
+
     }
 
-    private void updateProgress() {
-
-
-    }
 
     public void next(View v) {
 

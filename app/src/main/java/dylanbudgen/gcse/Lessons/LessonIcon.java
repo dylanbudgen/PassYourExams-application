@@ -11,13 +11,16 @@ import java.io.Serializable;
 public class LessonIcon implements Serializable {
 
     private String lessonName;
+    private String lessonId;
     private int icon;
-    private ProgressBar progressBar;
 
-    public LessonIcon(String lessonName, int icon) {
+    public LessonIcon(String lessonId, String lessonName, int icon) {
+        this.lessonId = lessonId;
         this.lessonName = lessonName;
         this.icon = icon;
     }
+
+    public String getLessonId() { return lessonId; }
 
     public String getLessonName() {
         return lessonName;

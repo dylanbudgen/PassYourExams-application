@@ -20,7 +20,7 @@ public class Lesson implements Serializable {
     public Lesson(String lessonID, int lessonIcon, ArrayList<Question> questions ) {
 
         this.lessonID = lessonID;
-        this.lessonIcon = new LessonIcon(lessonID, lessonIcon);
+        this.lessonIcon = new LessonIcon(lessonID, lessonID, lessonIcon);
         this.questions = questions;
 
     }

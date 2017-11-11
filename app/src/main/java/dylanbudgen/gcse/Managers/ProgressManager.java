@@ -1,4 +1,4 @@
-package dylanbudgen.gcse.Progress;
+package dylanbudgen.gcse.Managers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

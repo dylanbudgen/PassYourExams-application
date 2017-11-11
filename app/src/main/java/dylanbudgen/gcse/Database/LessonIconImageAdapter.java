@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import dylanbudgen.gcse.Lessons.LessonIcon;
-import dylanbudgen.gcse.Progress.ProgressManager;
+import dylanbudgen.gcse.Managers.ProgressManager;
 import dylanbudgen.gcse.R;
 
 public class LessonIconImageAdapter extends BaseAdapter {

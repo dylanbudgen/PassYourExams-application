@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // hide the toolbar
+        getSupportActionBar().hide();
 
         Log.d("DEBUG", "Deleting database for debugging purposes");
         this.deleteDatabase(DB_PATH);
@@ -71,5 +75,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    // Make the back button work doesn't do anything
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            //onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }

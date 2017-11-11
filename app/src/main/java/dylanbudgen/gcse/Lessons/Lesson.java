@@ -2,6 +2,8 @@ package ***REMOVED***gcse.Lessons;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import ***REMOVED***gcse.Question.Question;
 
@@ -21,7 +23,7 @@ public class Lesson implements Serializable {
 
         this.lessonID = lessonID;
         this.lessonIcon = new LessonIcon(lessonID, lessonID, lessonIcon);
-        this.questions = questions;
+        this.questions = createQuestionsArray(questions);;
 
     }
 
@@ -30,6 +32,7 @@ public class Lesson implements Serializable {
     }
 
     public ArrayList<Question> getQuestions() {
+
         return questions;
     }
 
@@ -37,4 +40,27 @@ public class Lesson implements Serializable {
 
         return lessonIcon;
     }
+
+    private ArrayList<Question> createQuestionsArray(ArrayList<Question> questions) {
+
+        ArrayList<Question> list = new ArrayList<>();
+
+        for (Question q : questions) {
+            if (!q.getQuestionType().equals("INFO")) {
+                list.add(q);
+            }
+        }
+
+        Collections.shuffle(list);
+
+        for (Question q : questions) {
+            if (q.getQuestionType().equals("INFO")) {
+                list.add(0, q);
+            }
+        }
+
+        return list;
+    }
+
+
 }

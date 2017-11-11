@@ -5,16 +5,16 @@
     android:layout_height="match_parent"
     tools:context="***REMOVED***gcse.Fragments.MultipleChoiceFragment">
 
+    <!--        android:background="@drawable/button_border_test"
+        android:background="@drawable/button_border"
+        android:elevation="5dp"-->
 
     <TextView
         android:id="@+id/text_multiple"
+        android:theme="@style/questions_textview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/border"
-        android:scrollbars="vertical"
-        android:textSize="24sp"
-        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/button_1_multiple"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -24,51 +24,43 @@
 
     <Button
         android:id="@+id/button_1_multiple"
+        android:theme="@style/questions_buttons"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:text="Button"
-        android:layout_marginBottom="0dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintBottom_toTopOf="@+id/button_3_multiple"
-        android:layout_marginLeft="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/button_2_multiple"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintRight_toLeftOf="@+id/button_2_multiple" />
 
 
     <Button
         android:id="@+id/button_2_multiple"
+        android:theme="@style/questions_buttons"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:text="Button"
-        android:layout_marginRight="0dp"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button_4_multiple"
         app:layout_constraintLeft_toRightOf="@id/button_1_multiple"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/button_4_multiple" />
+        app:layout_constraintRight_toRightOf="parent" />
 
 
     <Button
         android:id="@+id/button_3_multiple"
+        android:theme="@style/questions_buttons"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:text="Button"
+        android:layout_marginRight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/button_4_multiple"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintRight_toLeftOf="@+id/button_4_multiple" />
 
     <Button
         android:id="@+id/button_4_multiple"
+        android:theme="@style/questions_buttons"
         android:layout_width="0dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginRight="0dp"
-        android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/button_3_multiple"/>
+        app:layout_constraintLeft_toRightOf="@id/button_3_multiple"
+        app:layout_constraintRight_toRightOf="parent" />
 
 
 

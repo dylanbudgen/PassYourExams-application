@@ -1,4 +1,4 @@
-package ***REMOVED***gcse.Progress;
+package ***REMOVED***gcse.Managers;
 
 import android.content.Context;
 import android.content.SharedPreferences;

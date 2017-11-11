@@ -1,11 +1,10 @@
 package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +17,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import ***REMOVED***gcse.Lessons.Lesson;
-import ***REMOVED***gcse.Progress.ProgressManager;
+import ***REMOVED***gcse.Managers.ProgressManager;
 import ***REMOVED***gcse.R;
 
 public class EndGameActivity extends AppCompatActivity {
@@ -34,6 +33,9 @@ public class EndGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
+
+        // hide the toolbar
+        getSupportActionBar().hide();
 
         lesson = (Lesson) getIntent().getExtras().getSerializable("LESSON");
 
@@ -115,6 +117,27 @@ public class EndGameActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+    }
+
+    // Make the back button work without changing the fragment
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    // Make the back button work without changing the fragment
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }

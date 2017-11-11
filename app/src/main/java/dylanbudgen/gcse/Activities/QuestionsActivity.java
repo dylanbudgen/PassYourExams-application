@@ -2,9 +2,13 @@ package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import ***REMOVED***gcse.Fragments.InfoFragment;
 import ***REMOVED***gcse.Fragments.MultipleChoiceFragment;
@@ -13,6 +17,7 @@ import ***REMOVED***gcse.Fragments.TrueFalseFragment;
 import ***REMOVED***gcse.Lessons.Lesson;
 import ***REMOVED***gcse.Question.Question;
 import ***REMOVED***gcse.R;
+import ***REMOVED***gcse.Managers.ViewManager;
 
 public class QuestionsActivity extends AppCompatActivity implements QuestionFragment.NextQuestionInteractionListener {
 
@@ -23,11 +28,20 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_questions);
+
+        // hide the toolbar
+        getSupportActionBar().hide();
 
         lesson = (Lesson) getIntent().getExtras().getSerializable("LESSON");
         questionQty = lesson.getQuestions().size();
         questionNumber = 0;
+
+
+        ConstraintLayout item = (ConstraintLayout) findViewById(R.id.bar_container);
+        View child = getLayoutInflater().inflate(R.layout.bar_questions, null);
+        item.addView(child);
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -43,6 +57,8 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
             openNextQuestion(questionNumber);
 
         }
+
+
 
     }
 
@@ -72,23 +88,30 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
         fragment.setArguments(bundle);
 
         // Add the fragment to the 'fragment_container' FrameLayout
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragment).commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // Attach a different animation to the very first question
+        if (questionNumber == 0) {
+            transaction.setCustomAnimations(0, R.anim.exit_to_left, 0, R.anim.exit_to_left);
+        } else {
+            transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_right, R.anim.exit_to_left);
+        }
+        transaction.addToBackStack(null);
+        transaction.add(R.id.fragment_container, fragment).commit();
 
     }
 
     @Override
     public void nextQuestion() {
-        Log.d("DEBUG", "000P The main activity listener method is activated ");
 
         questionNumber++;
 
         if (questionNumber < questionQty) {
 
             // removes the current fragment
-            for(Fragment fragment:getSupportFragmentManager().getFragments()){
-                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-            }
+            this.getSupportFragmentManager().popBackStack();
+            // update progress bar
+            ViewManager.updateProgressBar((ProgressBar) findViewById(R.id.bar_progressbar), (int) Math.round(((double) questionNumber / (double) questionQty) * 100));
 
             openNextQuestion(questionNumber);
 
@@ -100,8 +123,29 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
             startActivity(intent);
         }
 
-
     }
+
+    // Make the back button work without changing the fragment
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            Log.d("CDA", "onKeyDown Called");
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    // Make the back button work without changing the fragment
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 
 
 

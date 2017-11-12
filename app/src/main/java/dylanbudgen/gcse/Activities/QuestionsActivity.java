@@ -1,6 +1,8 @@
 package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import ***REMOVED***gcse.Fragments.InfoFragment;
@@ -15,6 +18,7 @@ import ***REMOVED***gcse.Fragments.MultipleChoiceFragment;
 import ***REMOVED***gcse.Fragments.QuestionFragment;
 import ***REMOVED***gcse.Fragments.TrueFalseFragment;
 import ***REMOVED***gcse.Lessons.Lesson;
+import ***REMOVED***gcse.Managers.ProgressManager;
 import ***REMOVED***gcse.Question.Question;
 import ***REMOVED***gcse.R;
 import ***REMOVED***gcse.Managers.ViewManager;
@@ -25,26 +29,34 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
     int questionQty;
     int questionNumber;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_questions);
 
-        // hide the toolbar
-        getSupportActionBar().hide();
-
         lesson = (Lesson) getIntent().getExtras().getSerializable("LESSON");
         questionQty = lesson.getQuestions().size();
         questionNumber = 0;
 
-
+        // Inflate the lesson progress bar and icon
         ConstraintLayout item = (ConstraintLayout) findViewById(R.id.bar_container);
         View child = getLayoutInflater().inflate(R.layout.bar_questions, null);
         item.addView(child);
 
-        // Check that the activity is using the layout version with
-        // the fragment_container FrameLayout
+        // Change colour of background
+        ViewManager.setActivityBackground(this.getWindow().findViewById(R.id.activity_questions), lesson.getBackgroundColour());
+
+        // Change the notification bar colour
+        ViewManager.setNotificationBarColour(this.getWindow(), lesson.getBackgroundColour());
+
+        // #########################################################################################################
+        ImageView img = (ImageView)findViewById(R.id.bar_icon);
+        img.setColorFilter(lesson.getForegroundColour());
+        // #########################################################################################################
+
+        // Check that the activity is using the layout version with the fragment_container FrameLayout
         if (findViewById(R.id.fragment_container) != null) {
 
             // However, if we're being restored from a previous state,
@@ -85,6 +97,7 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
 
         Bundle bundle = new Bundle();
         bundle.putSerializable("QUESTION", question);
+        bundle.putSerializable("FOREGROUND_COLOUR", lesson.getForegroundColour());
         fragment.setArguments(bundle);
 
         // Add the fragment to the 'fragment_container' FrameLayout
@@ -111,7 +124,7 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
             // removes the current fragment
             this.getSupportFragmentManager().popBackStack();
             // update progress bar
-            ViewManager.updateProgressBar((ProgressBar) findViewById(R.id.bar_progressbar), (int) Math.round(((double) questionNumber / (double) questionQty) * 100));
+            ProgressManager.updateProgressBar((ProgressBar) findViewById(R.id.bar_progressbar), (int) Math.round(((double) questionNumber / (double) questionQty) * 100), 300);
 
             openNextQuestion(questionNumber);
 

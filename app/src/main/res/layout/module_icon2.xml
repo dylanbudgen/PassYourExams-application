@@ -22,7 +22,7 @@ android:gravity="center"
             android:rotation="270" />
 
         <ImageView
-            android:id="@+id/module_icon_image"
+            android:id="@+id/lesson_icon_imageview"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:gravity="center_horizontal"

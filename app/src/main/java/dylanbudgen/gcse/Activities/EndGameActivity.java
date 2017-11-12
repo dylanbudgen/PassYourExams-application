@@ -1,12 +1,17 @@
 package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -17,7 +22,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import ***REMOVED***gcse.Lessons.Lesson;
+import ***REMOVED***gcse.Managers.ColourManager;
 import ***REMOVED***gcse.Managers.ProgressManager;
+import ***REMOVED***gcse.Managers.ViewManager;
 import ***REMOVED***gcse.R;
 
 public class EndGameActivity extends AppCompatActivity {
@@ -34,10 +41,13 @@ public class EndGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
 
-        // hide the toolbar
-        getSupportActionBar().hide();
-
         lesson = (Lesson) getIntent().getExtras().getSerializable("LESSON");
+
+        // Change colour of background
+        ViewManager.setActivityBackground(this.getWindow().findViewById(R.id.activity_end_game), lesson.getBackgroundColour());
+
+        // Change the notification bar colour
+        ViewManager.setNotificationBarColour(this.getWindow(), lesson.getBackgroundColour());
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -80,25 +90,25 @@ public class EndGameActivity extends AppCompatActivity {
         // Set up the module icon layout
         LinearLayout layout = (LinearLayout) findViewById(R.id.container_module_icon);
         LayoutInflater inflater = LayoutInflater.from(this);
-        View inflatedLayout = inflater.inflate(R.layout.module_icon, null, false);
+        View inflatedLayout = inflater.inflate(R.layout.lesson_icon_block, null, false);
 
         layout.addView(inflatedLayout);
 
-        ImageView moduleIcon = (ImageView)inflatedLayout.findViewById(R.id.module_icon_image);
-        TextView moduleTitle = (TextView)inflatedLayout.findViewById(R.id.module_name);
-
-        moduleIcon.setImageResource(lesson.getLessonIcon().getIcon());
-        moduleTitle.setText(lesson.getLessonIcon().getLessonName());
+        // Update the module icon block
+        ViewManager.updateLessonIconBlock(inflatedLayout, lesson);
 
         // Update progress
         ProgressManager.increaseLevelProgress(this, lesson.getLessonID(), UPDATE_PROGRESS);
 
         // Set the progress bar
+        //ViewManager.setLessonProgressBar((ProgressBar) findViewById(R.id.progressbar), lesson)
+        // TODO Maybe move to ViewManager
+
         int progress = ProgressManager.getLevelProgress(this, lesson.getLessonID());
-
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar);
-        ProgressManager.updateProgressBar(progressBar, progress);
+        ProgressManager.updateProgressBar(progressBar, progress, 3000);
 
+        // TODO Maybe move to ViewManager
         TextView text = (TextView) findViewById(R.id.textView_test_left);
         text.setText("Progress: " + progress);
 

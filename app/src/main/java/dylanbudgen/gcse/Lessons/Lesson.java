@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import ***REMOVED***gcse.Managers.ColourManager;
 import ***REMOVED***gcse.Question.Question;
 
 /**
@@ -15,15 +16,21 @@ public class Lesson implements Serializable {
 
 
     private String lessonID;
-    private LessonIcon lessonIcon;
+    private String lessonName;
     private ArrayList<Question> questions;
+    private int lessonIconDrawable;
+    private int foregroundColour;
+    private int backgroundColour;
 
 
-    public Lesson(String lessonID, int lessonIcon, ArrayList<Question> questions ) {
+    public Lesson(String lessonID, String lessonName, int lessonIconDrawable, ArrayList<Question> questions, String lessonColour) {
 
         this.lessonID = lessonID;
-        this.lessonIcon = new LessonIcon(lessonID, lessonID, lessonIcon);
-        this.questions = createQuestionsArray(questions);;
+        this.lessonName = lessonName;
+        this.questions = createQuestionsArray(questions);
+        this.lessonIconDrawable = lessonIconDrawable;
+        foregroundColour = ColourManager.resolveColour(lessonColour, "LIGHT");
+        backgroundColour = ColourManager.resolveColour(lessonColour, "DARK");
 
     }
 
@@ -31,15 +38,11 @@ public class Lesson implements Serializable {
         return lessonID;
     }
 
-    public ArrayList<Question> getQuestions() {
-
-        return questions;
+    public String getLessonName() {
+        return lessonName;
     }
 
-    public LessonIcon getLessonIcon() {
-
-        return lessonIcon;
-    }
+    public ArrayList<Question> getQuestions() { return questions; }
 
     private ArrayList<Question> createQuestionsArray(ArrayList<Question> questions) {
 
@@ -63,4 +66,13 @@ public class Lesson implements Serializable {
     }
 
 
+    public int getLessonIconDrawable() { return lessonIconDrawable; }
+
+    public int getForegroundColour() {
+        return foregroundColour;
+    }
+
+    public int getBackgroundColour() {
+        return backgroundColour;
+    }
 }

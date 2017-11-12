@@ -4,12 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
-import android.widget.Toast;
+import android.util.Log;
 
 import java.util.ArrayList;
 
 import ***REMOVED***gcse.Lessons.Lesson;
-import ***REMOVED***gcse.Lessons.LessonIcon;
 import ***REMOVED***gcse.Question.InfoQuestion;
 import ***REMOVED***gcse.Question.MultipleChoiceQuestion;
 import ***REMOVED***gcse.Question.Question;
@@ -32,15 +31,62 @@ public class DatabaseReader {
 
     }
 
-
-    // TODO
-    // TODO THIS CODE WILL BE INSIDE A CLASS WHICH WILL HOLD A CURSOR OBJECT AS A FIELD.
-    // TODO THE FOLLOWING CODE WILL EXECUTE, WITH ALL OF THE FIELDS AND THEN THE REVELENT FIELD WILL BE RETURNED
-    // TODO ACTUALLY, MAYBE THAT WONT WORK BECAUSE SOME CALLS WILL NEED A DIFFERENT WHERE QUERY
-
     // TODO THERE NEEDS TO BE EXCEPTIONS!!!!!!!!
     // TODO AND THEY NEED TO BE HANDLED
 
+    // Return array of lesson ids
+    private ArrayList<String> getLessonIds() {
+
+        ArrayList<String> lessonIds = new ArrayList<>();
+
+        // Define a projection that specifies which columns from the mDatabase
+        // you will actually use after this query.
+        String[] projection = {
+                FeedReaderContract.FeedEntry.LESSONID
+        };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                FeedReaderContract.FeedEntry.LESSONID;
+
+        Cursor cursor = mDatabase.query(
+                true,
+                FeedReaderContract.FeedEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder,                           // The sort order
+                null
+        );
+
+        while (cursor.moveToNext()) {
+
+            lessonIds.add(cursor.getString(
+                    cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.LESSONID)));
+
+        }
+        cursor.close();
+
+        return lessonIds;
+
+    }
+
+    // Return all lessons
+    public ArrayList<Lesson> getLessons() {
+
+        ArrayList<Lesson> lessons = new ArrayList<>();
+
+        for (String lessonId : getLessonIds()) {
+
+            lessons.add(getLesson(lessonId));
+            //Log.d("DEBUG","0000P" + lessonId);
+        }
+
+        return lessons;
+
+    }
 
     // Return a lesson by LESSON ID
     public Lesson getLesson(String lessonId) {
@@ -49,7 +95,9 @@ public class DatabaseReader {
 
         String lessonID = null;
         String lessonIcon = null;
-        int itemLessonIconResource = 0;
+        String lessonColour = null;
+
+        int lessonIconDrawable = 0;
 
         // Define a projection that specifies which columns from the mDatabase
         // you will actually use after this query.
@@ -63,17 +111,17 @@ public class DatabaseReader {
                 FeedReaderContract.FeedEntry.QUESTION_TYPE,
                 FeedReaderContract.FeedEntry.CORRECT_ANS,
                 FeedReaderContract.FeedEntry.INCORRECT_ANS,
-                FeedReaderContract.FeedEntry.INCORRECT_ANS_2
-
+                FeedReaderContract.FeedEntry.INCORRECT_ANS_2,
+                FeedReaderContract.FeedEntry.COLOUR
         };
 
         // Filter results WHERE "title" = 'My Title'
-        String selection = FeedReaderContract.FeedEntry.LESSONID + " = ?";
+        String selection = FeedReaderContract.FeedEntry.LESSONID + "=?";
         String[] selectionArgs = {lessonId};
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
-                FeedReaderContract.FeedEntry.LESSONID + " DESC";
+                FeedReaderContract.FeedEntry.LESSONID;
 
         Cursor cursor = mDatabase.query(
                 FeedReaderContract.FeedEntry.TABLE_NAME,                     // The table to query
@@ -97,12 +145,18 @@ public class DatabaseReader {
                         cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.LESSONICON));
             }
 
-            if (itemLessonIconResource == 0) {
+            if (lessonIconDrawable == 0) {
 
                 String itemLessonIcon = cursor.getString(
                         cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.LESSONICON));
 
-                itemLessonIconResource = mContext.getResources().getIdentifier(itemLessonIcon, "drawable", mContext.getPackageName());
+                lessonIconDrawable = mContext.getResources().getIdentifier(itemLessonIcon, "drawable", mContext.getPackageName());
+
+            }
+
+            if (lessonColour == null) {
+                lessonColour = cursor.getString(
+                        cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.COLOUR));
 
             }
 
@@ -141,17 +195,14 @@ public class DatabaseReader {
 
             questions.add(newQuestion);
 
-            //questions.add(new Question(questionId, correctAnswer, incorrectAnswer,
-                    //incorrectAnswer2, questionType));
-
         }
         cursor.close();
 
-        return new Lesson(lessonID, itemLessonIconResource, questions);
+        return new Lesson(lessonID, lessonID, lessonIconDrawable, questions, lessonColour);
 
     }
 
-    public ArrayList<LessonIcon> getLessonList() {
+    /*public ArrayList<LessonIcon> getLessonList() {
 
         // Define a projection that specifies which columns from the mDatabase
         // you will actually use after this query.
@@ -168,7 +219,7 @@ public class DatabaseReader {
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
-                FeedReaderContract.FeedEntry.LESSONID + " DESC";
+                FeedReaderContract.FeedEntry.LESSONID;
 
         Cursor cursor = mDatabase.query(true,
                 FeedReaderContract.FeedEntry.TABLE_NAME,                     // The table to query
@@ -199,7 +250,7 @@ public class DatabaseReader {
         cursor.close();
 
         return lessons;
-    }
+    }*/
 
 
     final class FeedReaderContract {
@@ -220,6 +271,7 @@ public class DatabaseReader {
             public static final String CORRECT_ANS = "CORRECT_ANS";
             public static final String INCORRECT_ANS = "INCORRECT_ANS";
             public static final String INCORRECT_ANS_2 = "INCORRECT_ANS_2";
+            public static final String COLOUR = "COLOUR";
         }
     }
 

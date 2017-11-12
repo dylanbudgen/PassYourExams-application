@@ -1,5 +1,7 @@
 package ***REMOVED***gcse.Fragments;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.method.ScrollingMovementMethod;
@@ -12,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ***REMOVED***gcse.Question.Question;
-import ***REMOVED***gcse.R;
 
 /**
  * Created by ***REMOVED*** on 11/10/2017.
@@ -22,6 +23,7 @@ public abstract class QuestionFragment extends Fragment implements View.OnClickL
 
     protected View view;
     protected Question question;
+    protected int foregroundColour;
     protected NextQuestionInteractionListener mListener;
 
     public QuestionFragment() {
@@ -31,7 +33,7 @@ public abstract class QuestionFragment extends Fragment implements View.OnClickL
     protected void initiateQuestionFragment(ViewGroup v, int id) {
 
         setUpListener();
-        setUpQuestionObject();
+        setFields();
         setUpTextView(id);
         setUpQuestionButtons(v);
 
@@ -45,12 +47,13 @@ public abstract class QuestionFragment extends Fragment implements View.OnClickL
         }
     }
 
-    protected void setUpQuestionObject() {
+    protected void setFields() {
 
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
             question = (Question) bundle.getSerializable("QUESTION");
+            foregroundColour = (int) bundle.getSerializable("FOREGROUND_COLOUR");
         } else {
             // TODO Catch and give user warning
             // TODO force a null error by not setting the arguments in questionsactivity
@@ -65,6 +68,10 @@ public abstract class QuestionFragment extends Fragment implements View.OnClickL
         for (int i = 0; i < answers.size(); i++) {
             buttons.get(i).setText(answers.get(i));
             buttons.get(i).setOnClickListener(this);
+            // Set colours
+            buttons.get(i).setBackgroundTintList(ColorStateList.valueOf(foregroundColour));
+            buttons.get(i).setTextColor(Color.parseColor("#ffffff"));
+
         }
 
     }

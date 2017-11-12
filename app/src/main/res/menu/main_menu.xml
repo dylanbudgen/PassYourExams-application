@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--android:icon="@drawable/ic_info"-->
+
+    <item
+        android:id="@+id/testing1"
+        android:title="testing"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/toolbar_grade"
+        android:title="testing3"
+        app:showAsAction="always" />
+
+</menu>

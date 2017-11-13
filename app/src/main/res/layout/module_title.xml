@@ -13,9 +13,21 @@
             android:id="@+id/module_name_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="Module Test" />
+            android:text="Module Test"
+            android:textAlignment="textEnd"
+            android:textSize="22dp" />
+
+
+        <View
+            android:id="@+id/module_space"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/module_name_test"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/darker_gray" />
 
     </RelativeLayout>
 

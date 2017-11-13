@@ -10,7 +10,7 @@
 
     <item
         android:id="@+id/toolbar_grade"
-        android:title="testing3"
+        android:title=""
         app:showAsAction="always" />
 
 </menu>

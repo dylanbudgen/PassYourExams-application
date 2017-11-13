@@ -2,16 +2,13 @@ package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -22,7 +19,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import ***REMOVED***gcse.Lessons.Lesson;
-import ***REMOVED***gcse.Managers.ColourManager;
 import ***REMOVED***gcse.Managers.ProgressManager;
 import ***REMOVED***gcse.Managers.ViewManager;
 import ***REMOVED***gcse.R;
@@ -95,7 +91,26 @@ public class EndGameActivity extends AppCompatActivity {
         layout.addView(inflatedLayout);
 
         // Update the module icon block
-        ViewManager.updateLessonIconBlock(inflatedLayout, lesson);
+        ViewManager.setLessonIconBlock(inflatedLayout, lesson);
+
+        // Change the colour in icon block to white
+        TextView txt = (TextView) findViewById(R.id.module_name);
+        txt.setTextColor(Color.WHITE);
+
+/*
+        ImageView img = (ImageView)findViewById(R.id.lesson_icon_imageview);
+
+        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) img.getLayoutParams();
+        params.width = 50;
+        // existing height is ok as is, no need to edit it
+        img.setLayoutParams(params);
+        img.requestLayout();
+*/
+
+        /*img.setMaxHeight(10);
+        img.setMaxWidth(10);
+        img.invalidate();*/
+
 
         // Update progress
         ProgressManager.increaseLevelProgress(this, lesson.getLessonID(), UPDATE_PROGRESS);
@@ -103,14 +118,23 @@ public class EndGameActivity extends AppCompatActivity {
         // Set the progress bar
         //ViewManager.setLessonProgressBar((ProgressBar) findViewById(R.id.progressbar), lesson)
         // TODO Maybe move to ViewManager
-
+        // TODO Maybe move to ViewManager
         int progress = ProgressManager.getLevelProgress(this, lesson.getLessonID());
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar);
         ProgressManager.updateProgressBar(progressBar, progress, 3000);
 
-        // TODO Maybe move to ViewManager
-        TextView text = (TextView) findViewById(R.id.textView_test_left);
-        text.setText("Progress: " + progress);
+
+        // Set the text depending on progress
+        TextView textView = (TextView) findViewById(R.id.text_strength);
+
+        if (progress > 80) {
+            textView.setText("You have reached the max strength!");
+        } else {
+            textView.setText("You have increased your strength!");
+        }
+
+
+
 
 
 

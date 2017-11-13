@@ -27,14 +27,11 @@ import ***REMOVED***gcse.R;
 
 public class MainActivity extends AppCompatActivity {
 
-
     // DO a version check, where if the version is newer then update the mDatabase
     DataBaseHelper mDbHelper;
     DatabaseReader mDbReader;
 
     ArrayList<Lesson> lessons;
-
-
 
     private static String DB_PATH = "/data/data/***REMOVED***gcse/databases/QUESTIONS_TEST";
 
@@ -44,22 +41,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Set up toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(myToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(toolbar);
         // #############################################################
-        myToolbar.setBackgroundColor(Color.BLACK);
+        toolbar.setBackgroundColor(Color.parseColor("#D3D3D3"));
 
-
-
-
-
-
-
-        // TODO Put the string in strings
-        // Change the notification bar colour
-        ViewManager.setNotificationBarColour(this.getWindow(), ColourManager.resolveColour("DARK_BLUE"));
-
-
+        //ViewManager.setNotificationBarColour(this.getWindow(), Color.parseColor("#D3D3D3"));
+        ViewManager.setActivityBackground(this.getWindow().findViewById(R.id.activity_main), Color.WHITE);
 
         Log.d("DEBUG", "Deleting database for debugging purposes");
         this.deleteDatabase(DB_PATH);
@@ -118,10 +106,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return grade;
-        //getSupportActionBar().setTitle("Grade: " + grade);
-
-
-        //MenuItem bedMenuItem = getSupportActionBar().getCustomView().findViewById(R.id.toolbar_grade);
 
     }
 
@@ -159,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main_menu, menu);
 
         MenuItem toolbarGrade = menu.findItem(R.id.toolbar_grade);
-        toolbarGrade.setTitle("Grade " + returnGrade());
+        toolbarGrade.setTitle("Grade: " + returnGrade());
 
         return super.onCreateOptionsMenu(menu);
     }

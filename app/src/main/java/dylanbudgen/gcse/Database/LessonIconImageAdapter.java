@@ -38,14 +38,31 @@ public class LessonIconImageAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
+
+
+        if (position == 4) {
+            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            convertView = layoutInflater.inflate(R.layout.module_title, null);
+            return convertView;
+        }
+
+        if (position == 5) {
+            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+            convertView = layoutInflater.inflate(R.layout.module_title, null);
+            return convertView;
+        }
+
+
+
+
+
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
             convertView = layoutInflater.inflate(R.layout.lesson_icon_block, null);
         }
 
-
         // Update the module icon block
-        ViewManager.updateLessonIconBlock(convertView, lessons.get(position));
+        ViewManager.setLessonIconBlock(convertView, lessons.get(position));
 
         // TODO Maybe move to ViewManager
         final ProgressBar progressBar = (ProgressBar)convertView.findViewById(R.id.progressbar);

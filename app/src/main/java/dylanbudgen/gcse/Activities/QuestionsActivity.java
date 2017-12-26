@@ -1,9 +1,6 @@
 package dylanbudgen.gcse.Activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentTransaction;
@@ -19,14 +16,17 @@ import dylanbudgen.gcse.Fragments.MultipleChoiceFragment;
 import dylanbudgen.gcse.Fragments.QuestionFragment;
 import dylanbudgen.gcse.Fragments.TrueFalseFragment;
 import dylanbudgen.gcse.Lessons.Lesson;
+import dylanbudgen.gcse.Lessons.Module;
 import dylanbudgen.gcse.Managers.ProgressManager;
+import dylanbudgen.gcse.Managers.ViewManager;
 import dylanbudgen.gcse.Question.Question;
 import dylanbudgen.gcse.R;
-import dylanbudgen.gcse.Managers.ViewManager;
 
 public class QuestionsActivity extends AppCompatActivity implements QuestionFragment.NextQuestionInteractionListener {
 
+    Module module;
     Lesson lesson;
+    String lessonId;
     int questionQty;
     int questionNumber;
 
@@ -37,7 +37,10 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
 
         setContentView(R.layout.activity_questions);
 
-        lesson = (Lesson) getIntent().getExtras().getSerializable("LESSON");
+        lessonId = (String) getIntent().getExtras().getSerializable("LESSON_ID");
+        module = (Module) getIntent().getExtras().getSerializable("MODULE");
+        lesson = module.getLesson(lessonId);
+        // TODO check if lesson is null
         questionQty = lesson.getQuestions().size();
         questionNumber = 0;
 
@@ -130,10 +133,11 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
             openNextQuestion(questionNumber);
 
         } else {
-
             // End of questions, going back to start
             Intent intent = new Intent(this, EndGameActivity.class);
-            intent.putExtra("LESSON", lesson);
+            intent.putExtra("LESSON_ID", lessonId);
+            intent.putExtra("MODULE", module);
+            startActivity(intent);
             startActivity(intent);
         }
 
@@ -156,7 +160,11 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionFrag
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");
-        Intent intent = new Intent(this, MainActivity.class);
+
+        // TODO warning box for going back
+        Intent intent = new Intent(this, LessonGridActivity.class);
+        intent.putExtra("LESSON_ID", lessonId);
+        intent.putExtra("MODULE", module);
         startActivity(intent);
     }
 

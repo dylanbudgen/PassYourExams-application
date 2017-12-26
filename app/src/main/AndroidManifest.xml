@@ -16,9 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.QuestionsActivity"/>
+        <activity android:name=".Activities.QuestionsActivity" />
         <activity android:name=".Activities.AdvertActivity" />
-        <activity android:name=".Activities.EndGameActivity"></activity>
+        <activity android:name=".Activities.EndGameActivity" />
+        <activity android:name=".Activities.LessonGridActivity"></activity>
     </application>
 
 </manifest>

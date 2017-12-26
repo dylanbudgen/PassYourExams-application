@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-android:orientation="vertical" android:layout_width="match_parent"
-android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:paddingTop="20dp">
 
 
@@ -36,18 +36,18 @@ android:layout_height="match_parent"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="100dp"
         android:layout_height="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/module_name"
+        app:layout_constraintBottom_toTopOf="@+id/lesson_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lesson_icon_imageview" />
 
     <TextView
-        android:id="@+id/module_name"
+        android:id="@+id/lesson_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="Module"
-        android:textColor="#4d4d4d"
+        android:textColor="#ffffff"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

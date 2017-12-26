@@ -1,4 +1,4 @@
-package ***REMOVED***gcse.Database;
+package ***REMOVED***gcse.ImageAdapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,47 +14,33 @@ import ***REMOVED***gcse.Managers.ProgressManager;
 import ***REMOVED***gcse.Managers.ViewManager;
 import ***REMOVED***gcse.R;
 
-public class LessonIconImageAdapter extends BaseAdapter {
+public class LessonImageAdapter extends BaseAdapter {
 
     private Context mContext;
     ArrayList<Lesson> lessons;
 
-    public LessonIconImageAdapter(Context c, ArrayList<Lesson> lessons) {
+    public LessonImageAdapter(Context c, ArrayList<Lesson> lessons) {
         mContext = c;
         this.lessons = lessons;
     }
 
     public int getCount() {
+
         return lessons.size();
     }
 
     public Object getItem(int position) {
+
         return lessons.get(position);
     }
 
     public long getItemId(int position) {
-        return 0;
+
+        return position;
     }
 
+
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
-
-        if (position == 4) {
-            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.module_title, null);
-            return convertView;
-        }
-
-        if (position == 5) {
-            final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-            convertView = layoutInflater.inflate(R.layout.module_title, null);
-            return convertView;
-        }
-
-
-
-
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
@@ -66,7 +52,7 @@ public class LessonIconImageAdapter extends BaseAdapter {
 
         // TODO Maybe move to ViewManager
         final ProgressBar progressBar = (ProgressBar)convertView.findViewById(R.id.progressbar);
-        int progress = ProgressManager.getLevelProgress(mContext, lessons.get(position).getLessonID());
+        int progress = ProgressManager.getProgress(mContext, lessons.get(position).getLessonID());
         //progressBar.setProgress(progress);
         ProgressManager.updateProgressBar(progressBar, progress, 1000);
 

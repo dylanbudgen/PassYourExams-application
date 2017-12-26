@@ -1,8 +1,8 @@
 package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.google.android.gms.ads.MobileAds;

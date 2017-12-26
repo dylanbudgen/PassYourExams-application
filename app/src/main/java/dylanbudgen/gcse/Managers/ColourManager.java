@@ -2,8 +2,6 @@ package ***REMOVED***gcse.Managers;
 
 import android.graphics.Color;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

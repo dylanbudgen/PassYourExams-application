@@ -1,19 +1,14 @@
 package ***REMOVED***gcse.Managers;
 
-import android.animation.ObjectAnimator;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.media.Image;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import ***REMOVED***gcse.Lessons.Lesson;
+import ***REMOVED***gcse.Lessons.Module;
 import ***REMOVED***gcse.R;
 
 import static com.google.android.gms.internal.zzahf.runOnUiThread;
@@ -73,7 +68,7 @@ public class ViewManager {
 
     public static void setLessonIconBlock(final View view, final Lesson lesson) {
 
-        setTextView(view, R.id.module_name, lesson.getLessonName());
+        setTextView(view, R.id.lesson_name, lesson.getLessonName());
         //setImageView(view, R.id.lesson_icon_imageview, lesson.getLessonIconDrawable());
         //setImageView(view, R.id.lesson_icon_imageview, R.drawable.sample_1_b);
 
@@ -86,6 +81,30 @@ public class ViewManager {
             }
         });
 
+
+    }
+
+    public static void setModuleIconBlock(final View view, final Module module) {
+
+       // setTextView(view, R.id.module_name, module.getModuleName());
+        //setTextView(view, R.id.module_grade, ProgressManager.getModuleGrade(this, ));
+        //setImageView(view, R.id.lesson_icon_imageview, lesson.getLessonIconDrawable());
+        //setImageView(view, R.id.lesson_icon_imageview, R.drawable.sample_1_b);
+
+        /*runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                //ImageView img = (ImageView) view.findViewById(R.id.lesson_icon_imageview);
+               // img.setColorFilter(lesson.getForegroundColour());
+            }
+        });*/
+
+        //
+        //
+        //
+        //
+        //
 
     }
 
@@ -120,6 +139,8 @@ public class ViewManager {
 
 
     }
+
+
 
 /*    public static void setAllParentsClip(View v, boolean enabled) {
         while (v.getParent() != null && v.getParent() instanceof ViewGroup) {

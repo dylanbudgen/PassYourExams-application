@@ -1,15 +1,12 @@
 package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,13 +16,16 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import ***REMOVED***gcse.Lessons.Lesson;
+import ***REMOVED***gcse.Lessons.Module;
 import ***REMOVED***gcse.Managers.ProgressManager;
 import ***REMOVED***gcse.Managers.ViewManager;
 import ***REMOVED***gcse.R;
 
 public class EndGameActivity extends AppCompatActivity {
 
+    Module module;
     Lesson lesson;
+
 
     private final int UPDATE_PROGRESS = 20;
 
@@ -37,7 +37,9 @@ public class EndGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_game);
 
-        lesson = (Lesson) getIntent().getExtras().getSerializable("LESSON");
+        String lessonId = (String) getIntent().getExtras().getSerializable("LESSON_ID");
+        module = (Module) getIntent().getExtras().getSerializable("MODULE");
+        lesson = module.getLesson(lessonId);
 
         // Change colour of background
         ViewManager.setActivityBackground(this.getWindow().findViewById(R.id.activity_end_game), lesson.getBackgroundColour());
@@ -78,7 +80,9 @@ public class EndGameActivity extends AppCompatActivity {
             public void onAdClosed() {
                 // Code to be executed when when the interstitial ad is closed.
                 Log.i("Ads", "onAdClosed");
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Log.d("DEBUG", "0000P onAdClosed");
+                Intent intent = new Intent(getApplicationContext(), LessonGridActivity.class);
+                intent.putExtra("MODULE", module);
                 startActivity(intent);
             }
         });
@@ -93,9 +97,6 @@ public class EndGameActivity extends AppCompatActivity {
         // Update the module icon block
         ViewManager.setLessonIconBlock(inflatedLayout, lesson);
 
-        // Change the colour in icon block to white
-        TextView txt = (TextView) findViewById(R.id.module_name);
-        txt.setTextColor(Color.WHITE);
 
 /*
         ImageView img = (ImageView)findViewById(R.id.lesson_icon_imageview);
@@ -113,13 +114,20 @@ public class EndGameActivity extends AppCompatActivity {
 
 
         // Update progress
-        ProgressManager.increaseLevelProgress(this, lesson.getLessonID(), UPDATE_PROGRESS);
+        int currentProgress = ProgressManager.getProgress(this, lessonId);
+        int newProgress = 100;
+
+        if ((currentProgress + UPDATE_PROGRESS) >= 100) {
+            newProgress = 100;
+        } else {
+            newProgress = currentProgress + UPDATE_PROGRESS;
+        }
+        ProgressManager.updateSetting(this, lesson.getLessonID(), newProgress);
 
         // Set the progress bar
         //ViewManager.setLessonProgressBar((ProgressBar) findViewById(R.id.progressbar), lesson)
         // TODO Maybe move to ViewManager
-        // TODO Maybe move to ViewManager
-        int progress = ProgressManager.getLevelProgress(this, lesson.getLessonID());
+        int progress = ProgressManager.getProgress(this, lesson.getLessonID());
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressbar);
         ProgressManager.updateProgressBar(progressBar, progress, 3000);
 
@@ -146,8 +154,9 @@ public class EndGameActivity extends AppCompatActivity {
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
         } else {
-            Log.d("TAG", "The interstitial wasn't loaded yet.");
-            Intent intent = new Intent(this, MainActivity.class);
+            Log.d("DEBUG", "0000P The interstitial wasn't loaded yet.");
+            Intent intent = new Intent(this, LessonGridActivity.class);
+            intent.putExtra("MODULE", module);
             startActivity(intent);
         }
 
@@ -170,7 +179,8 @@ public class EndGameActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Log.d("CDA", "onBackPressed Called");
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LessonGridActivity.class);
+        intent.putExtra("MODULE", module);
         startActivity(intent);
     }
 

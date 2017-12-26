@@ -2,8 +2,8 @@ package ***REMOVED***gcse.Activities;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,11 +18,11 @@ import java.util.ArrayList;
 
 import ***REMOVED***gcse.Database.DataBaseHelper;
 import ***REMOVED***gcse.Database.DatabaseReader;
+import ***REMOVED***gcse.ImageAdapters.ModuleImageAdapter;
 import ***REMOVED***gcse.Lessons.Lesson;
-import ***REMOVED***gcse.Database.LessonIconImageAdapter;
-import ***REMOVED***gcse.Managers.ColourManager;
 import ***REMOVED***gcse.Managers.ProgressManager;
 import ***REMOVED***gcse.Managers.ViewManager;
+import ***REMOVED***gcse.Lessons.Module;
 import ***REMOVED***gcse.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,7 +31,8 @@ public class MainActivity extends AppCompatActivity {
     DataBaseHelper mDbHelper;
     DatabaseReader mDbReader;
 
-    ArrayList<Lesson> lessons;
+    //ArrayList<Lesson> lessons;
+    ArrayList<Module> modules;
 
     private static String DB_PATH = "/data/data/***REMOVED***gcse/databases/QUESTIONS_TEST";
 
@@ -43,8 +44,13 @@ public class MainActivity extends AppCompatActivity {
         // Set up toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        // #############################################################
+        getSupportActionBar().setTitle("App name");
         toolbar.setBackgroundColor(Color.parseColor("#D3D3D3"));
+        toolbar.setTitleTextColor(Color.WHITE);
+        // #############################################################
+
+
+
 
         //ViewManager.setNotificationBarColour(this.getWindow(), Color.parseColor("#D3D3D3"));
         ViewManager.setActivityBackground(this.getWindow().findViewById(R.id.activity_main), Color.WHITE);
@@ -65,63 +71,30 @@ public class MainActivity extends AppCompatActivity {
 
         mDbReader = new DatabaseReader(this, mDbHelper.getReadableDatabase());
 
-        // TODO TRY AND CATCH HERE
+        modules = mDbReader.getModules();
 
-        lessons = mDbReader.getLessons();
+        ProgressManager.recalculateProgress(this, modules);
 
-        GridView gridview = (GridView) findViewById(R.id.gridview);
-        gridview.setAdapter(new LessonIconImageAdapter(this, lessons));
+
+        // Initiate gridview with adapter
+        GridView gridview = (GridView) findViewById(R.id.module_gridview);
+        gridview.setAdapter(new ModuleImageAdapter(this, modules));
 
         // Start QuestionActivity with Questions
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                Intent intent = new Intent(v.getContext(), QuestionsActivity.class);
-                intent.putExtra("LESSON", lessons.get(position));
+                Intent intent = new Intent(v.getContext(), LessonGridActivity.class);
+                intent.putExtra("MODULE", modules.get(position));
                 startActivity(intent);
 
             }
         });
 
-    }
-
-
-    private String returnGrade() {
-
-        String grade = "U";
-
-        int averageStength = calculateAverageStrength();
-
-        if (averageStength >= 80) {
-            grade = "A*";
-        } else if (averageStength >= 70) {
-            grade = "B";
-        } else if (averageStength >= 60) {
-            grade = "C";
-        } else if (averageStength >= 50) {
-            grade = "D";
-        } else if (averageStength >= 40) {
-            grade = "E";
-        }
-
-        return grade;
 
     }
 
-    private int calculateAverageStrength() {
-
-        int totalProgress = 0;
-
-        for (Lesson lesson : lessons) {
-            totalProgress = totalProgress + ProgressManager.getLevelProgress(this, lesson.getLessonID());
-        }
-
-        return totalProgress / lessons.size();
-
-
-
-    }
 
     // Make the back button work doesn't do anything
     @Override
@@ -139,12 +112,7 @@ public class MainActivity extends AppCompatActivity {
     // Required to set up toolbar and add buttons
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.main_menu, menu);
-
-        MenuItem toolbarGrade = menu.findItem(R.id.toolbar_grade);
-        toolbarGrade.setTitle("Grade: " + returnGrade());
-
         return super.onCreateOptionsMenu(menu);
     }
 

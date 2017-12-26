@@ -2,7 +2,6 @@ package ***REMOVED***gcse.Lessons;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import ***REMOVED***gcse.Managers.ColourManager;

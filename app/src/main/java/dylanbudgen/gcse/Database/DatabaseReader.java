@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import ***REMOVED***gcse.Lessons.Lesson;
+import ***REMOVED***gcse.Lessons.Module;
 import ***REMOVED***gcse.Question.InfoQuestion;
 import ***REMOVED***gcse.Question.MultipleChoiceQuestion;
 import ***REMOVED***gcse.Question.Question;
@@ -55,6 +56,117 @@ public class DatabaseReader {
                 projection,                               // The columns to return
                 null,                                // The columns for the WHERE clause
                 null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder,                           // The sort order
+                null
+        );
+
+        while (cursor.moveToNext()) {
+
+            lessonIds.add(cursor.getString(
+                    cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.LESSONID)));
+
+        }
+        cursor.close();
+
+        return lessonIds;
+
+    }
+
+
+    public ArrayList<String> getModuleIds() {
+
+        ArrayList<String> moduleIds = new ArrayList<>();
+
+
+
+        // Define a projection that specifies which columns from the mDatabase
+        // you will actually use after this query.
+        String[] projection = {
+                FeedReaderContract.FeedEntry.MODULEID
+        };
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                FeedReaderContract.FeedEntry.MODULEID;
+
+        Cursor cursor = mDatabase.query(
+                true,
+                FeedReaderContract.FeedEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                null,                                // The columns for the WHERE clause
+                null,                            // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder,                           // The sort order
+                null
+        );
+
+        while (cursor.moveToNext()) {
+
+            moduleIds.add(cursor.getString(cursor.getColumnIndexOrThrow(FeedReaderContract.FeedEntry.MODULEID)));
+
+        }
+        cursor.close();
+
+        return moduleIds;
+
+    }
+
+
+    public ArrayList<Module> getModules() {
+
+        ArrayList<Module> modules = new ArrayList<>();
+
+        Log.d("DEBUG", "0000P module ids: "  + getModuleIds());
+
+        for (String moduleId: getModuleIds()) {
+
+            ArrayList<Lesson> lessons = new ArrayList<>();
+
+            for (String lessonId : getModuleLessonIds(moduleId)) {
+
+                lessons.add(getLesson(lessonId));
+            }
+
+            modules.add(new Module(moduleId, moduleId, lessons));
+
+        }
+
+        return modules;
+
+
+    }
+
+
+    // Return array of lesson ids
+    private ArrayList<String> getModuleLessonIds(String moduleId) {
+
+        ArrayList<String> lessonIds = new ArrayList<>();
+
+        // Define a projection that specifies which columns from the mDatabase
+        // you will actually use after this query.
+        String[] projection = {
+                FeedReaderContract.FeedEntry.LESSONID,
+                FeedReaderContract.FeedEntry.MODULEID
+
+        };
+
+        // Filter results WHERE "title" = 'My Title'
+        String selection = FeedReaderContract.FeedEntry.MODULEID + "=?";
+        String[] selectionArgs = {moduleId};
+
+        // How you want the results sorted in the resulting Cursor
+        String sortOrder =
+                FeedReaderContract.FeedEntry.LESSONID;
+
+        Cursor cursor = mDatabase.query(
+                true,
+                FeedReaderContract.FeedEntry.TABLE_NAME,                     // The table to query
+                projection,                               // The columns to return
+                selection,                              // The columns for the WHERE clause
+                selectionArgs,                           // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
                 sortOrder,                           // The sort order

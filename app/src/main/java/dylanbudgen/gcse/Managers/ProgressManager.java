@@ -6,8 +6,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
+
+import java.util.ArrayList;
+
+import ***REMOVED***gcse.Lessons.Lesson;
+import ***REMOVED***gcse.Lessons.Module;
 
 /**
  * Created by ***REMOVED*** on 20/10/2017.
@@ -15,31 +21,72 @@ import android.widget.ProgressBar;
 
 public class ProgressManager {
 
+    private final static int DAILY_PERCENTAGE_REDUCTION = 3;
 
-    public static int getLevelProgress(Context context, String lessonId) {
+
+    public static int getProgress(Context context, String name) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        int progress = sharedPref.getInt(lessonId, 20);
+        int progress = sharedPref.getInt(name, 20);
         return progress;
 
     }
 
-    public static void increaseLevelProgress(Context context, String lessonId, int value) {
+    public static long getTimeProgress(Context context, String name) {
 
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        int currentProgress = getLevelProgress(context, lessonId);
+        long progress = sharedPref.getLong(name, System.currentTimeMillis());
+        return progress;
 
-        if ((currentProgress + value) >= 100) {
-            value = 100;
-        } else {
-            value = value + currentProgress;
-        }
+    }
 
+    public static void updateSetting(Context context, String name, int value) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor edit = sharedPref.edit();
-        edit.putInt(lessonId, value);
+        edit.putInt(name, value);
         edit.apply();
 
     }
+
+    public static void updateTimeSetting(Context context, String name, long value) {
+
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor edit = sharedPref.edit();
+        edit.putLong(name, value);
+        edit.apply();
+
+    }
+
+    public static void recalculateProgress(Context context, ArrayList<Module> modules) {
+
+        for (Module module : modules) {
+            for (Lesson lesson : module.getLessons()) {
+
+                int currentProgress = getProgress(context, lesson.getLessonID());
+                long previousTime = getTimeProgress(context, lesson.getLessonID() + "_TIME");
+                int days = ((int) System.currentTimeMillis() / 86400000) - ((int) previousTime / 86400000);
+                Log.d("DEBUG", "0000P Days: " + days);
+
+                int newProgress = currentProgress;
+
+                if (days != 0) {
+                    newProgress = currentProgress - (days * DAILY_PERCENTAGE_REDUCTION);
+                }
+
+                if (newProgress < 0) {
+                    newProgress = 0;
+                }
+
+                updateSetting(context, lesson.getLessonID(), newProgress);
+                updateTimeSetting(context, lesson.getLessonID() + "_TIME", System.currentTimeMillis());
+
+
+            }
+        }
+
+    }
+
 
     public static void updateProgressBar(ProgressBar progressBar, int progress, int speed) {
 
@@ -59,6 +106,60 @@ public class ProgressManager {
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
 
+    }
+
+
+    public static String getModuleGrade(Context context, Module module) {
+
+        int totalPercentage = 0;
+
+        for (Lesson lesson : module.getLessons()) {
+            totalPercentage = totalPercentage + ProgressManager.getProgress(context, lesson.getLessonID());
+        }
+
+        String grade = "U";
+
+        int averagePercentage = totalPercentage / module.getLessons().size();
+
+        if (averagePercentage >= 80) {
+            grade = "A*";
+        } else if (averagePercentage >= 70) {
+            grade = "A";
+        } else if (averagePercentage >= 60) {
+            grade = "B";
+        } else if (averagePercentage >= 50) {
+            grade = "C";
+        } else if (averagePercentage >= 40) {
+            grade = "D";
+        } else if (averagePercentage >= 30) {
+            grade = "E";
+        }
+
+        return grade;
+    }
+
+
+    public static String getLessonGrade(Context context, Lesson lesson) {
+
+        String grade = "U";
+
+        int percentage =  ProgressManager.getProgress(context, lesson.getLessonID());
+
+        if (percentage >= 80) {
+            grade = "A*";
+        } else if (percentage >= 70) {
+            grade = "A";
+        } else if (percentage >= 60) {
+            grade = "B";
+        } else if (percentage >= 50) {
+            grade = "C";
+        } else if (percentage >= 40) {
+            grade = "D";
+        } else if (percentage >= 30) {
+            grade = "E";
+        }
+
+        return grade;
 
     }
 
